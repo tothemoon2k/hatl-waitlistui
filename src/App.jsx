@@ -5,11 +5,14 @@ import Footer from './footer';
 import questionIcon from "../public/assets/bxs_user-circle.png";
 import winkIcon from "../public/assets/ph_smiley-wink-fill.png";
 import hattlLogo from "../public/assets/LOGO MAIN 1.png";
-import phoness from "../public/assets/Frame 34427.png"
+import phoness from "../public/assets/Frame 34427.png";
+import laptopss from "../public/assets/Macbook Air (2022).png"
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+
+  const screenWidth = screen.width;
 
   return (
     <div className='w-full h-fit bg-[#121114] pb-10 px-5'>
@@ -26,32 +29,42 @@ function App() {
         </div>
       </nav>
 
-      <h1 className='text-white mt-12 text-4xl font-semibold'>
-        6 free months <br /> <span className='text-gray-400'>for our first users</span>
-      </h1>
+      <div className='flex flex-wrap'>
+        <div className='md:w-1/2'>
+          <h1 className='text-white mt-12 text-4xl font-semibold'>
+            6 free months<br /> <span className='text-gray-400'>for our first users</span>
+          </h1>
 
-      <p className='mt-6 text-gray-400'>
-        We’ll launch a platform with a huge number of features that you will definitely like.
-        <br />
-        <br />
-        And now you can become the very first user and get a god mode absolutely free.
-      </p>
+          <p className='mt-6 text-gray-400'>
+            We’ll launch a platform with a huge number of features that you will definitely like.
+            <br />
+            <br />
+            And now you can become the very first user and get a god mode absolutely free.
+          </p>
+        </div>
+        
+        {screenWidth > 1024 ? (
+          <img className='mt-8 w-full md:w-1/2' src={laptopss} alt="" />
+        ) : (
+          <img className='mt-8 w-full md:w-1/2' src={phoness} alt="" />
+        )}
 
-      <img className='mt-8' src={phoness} alt="" />
+        <div className='md:w-1/3 md:relative md:-top-20'>
+          <div className='mt-8 h-14 flex items-center w-full border-b-4 border-gray-400'>
+            <input className='bg-transparent h-full grow text-lg text-white' type="text" placeholder='Your email' name="" id="" />
 
-      <div className='mt-8 h-14 flex items-center w-full border-b-4 border-gray-400'>
-        <input className='bg-transparent h-full grow text-lg text-white' type="text" placeholder='Your email' name="" id="" />
+            <img className='h-10' src="https://img.icons8.com/ios-filled/100/ffffff/long-arrow-right.png" alt="" />
+          </div>
 
-        <img className='h-10' src="https://img.icons8.com/ios-filled/100/ffffff/long-arrow-right.png" alt="" />
+          <p className='mt-7 text-gray-400'>
+            We’re really honest guys and promise not to send you ads. We will write only once when our platform is ready.
+          </p>
+        </div>
       </div>
-
-      <p className='mt-7 text-gray-400'>
-        We’re really honest guys and promise not to send you ads. We will write only once when our platform is ready.
-      </p>
 
       <h2 className='mt-8 text-white text-2xl font-medium'>Why it's cool?</h2>
 
-      <div className='mt-6 flex flex-col gap-10'>
+      <div className='mt-6 flex flex-col md:flex-row gap-10'>
         <div className=''>
           <h3 className='mb-3 text-white text-xl font-medium'>Games</h3>
 
