@@ -25,7 +25,7 @@ function App() {
         </div>
       </nav>
 
-      <h1 className='text-white mt-12 px-5 text-4xl font-medium'>
+      <h1 className='text-white mt-12 px-5 text-4xl font-semibold'>
         6 free months <br /> <span className='text-gray-400'>for our first users</span>
       </h1>
 
