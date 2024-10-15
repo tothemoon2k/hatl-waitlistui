@@ -18,6 +18,8 @@ function App() {
   const [input2, setInput2] = useState('');
   const [input1Success, setInput1Success] = useState(false);
   const [input2Success, setInput2Success] = useState(false);
+  const [input1Failure, setInput1Failure] = useState(false);
+  const [input2Failure, setInput2Failure] = useState(false);
 
   const handleInput1Change = (event) => {
     setInput1(event.target.value);
@@ -34,15 +36,19 @@ function App() {
       await addDoc(ref, {
         email: input1
       })
+      setInput1("");
+      setInput1Success(true);
+      setTimeout(()=>{
+        setInput1Success(false);
+      }, 2000)
     } catch (error) {
       console.log(error);
+      setInput1("");
+      setInput1Failure(true);
+      setTimeout(()=>{
+        setInput1Failure(false);
+      }, 2000)
     }
-
-    setInput1("");
-    setInput1Success(true);
-    setTimeout(()=>{
-      setInput1Success(false);
-    }, 2000)
   }
 
   const handleInput2Submit = async() => {
@@ -50,15 +56,19 @@ function App() {
       await addDoc(ref, {
         email: input2
       })
+      setInput2("");
+      setInput2Success(true);
+      setTimeout(()=>{
+        setInput2Success(false);
+      }, 2000)
     } catch (error) {
       console.log(error);
+      setInput2("");
+      setInput2Failure(true);
+      setTimeout(()=>{
+        setInput2Failure(false);
+      }, 2000)
     }
-
-    setInput2("");
-    setInput2Success(true);
-    setTimeout(()=>{
-      setInput2Success(false);
-    }, 2000)
   }
 
   return (
@@ -93,10 +103,10 @@ function App() {
 
             {screenWidth > 768 ? (
               <div className=''>
-                <div className={!input1Success ? 'transition-all duration-500 mt-8 h-14 flex items-center w-full border-b-4 border-gray-400' : 'transition-all duration-500 mt-8 h-14 flex items-center w-full border-b-4 border-green-600 text-green-600'}>
-                  <input className={!input1Success ? 'placeholder:transition-all placeholder:duration-500 bg-transparent h-full grow text-lg text-white' : 'transition-all duration-500 bg-transparent h-full grow text-lg text-white placeholder:text-green-600'} type="text" placeholder={!input1Success ? 'Your email' : "success! check your email"} name="" id="" value={input1}
+                <div className={input1Failure ? 'transition-all duration-500 mt-8 h-14 flex items-center w-full border-b-4 border-red-600' : !input1Success ? 'transition-all duration-500 mt-8 h-14 flex items-center w-full border-b-4 border-gray-400' : 'transition-all duration-500 mt-8 h-14 flex items-center w-full border-b-4 border-green-600 text-green-600'}>
+                  <input className={input1Failure ? 'transition-all duration-500 bg-transparent h-full grow text-lg text-white placeholder:text-red-600' : !input1Success ? 'placeholder:transition-all placeholder:duration-500 bg-transparent h-full grow text-lg text-white' : 'transition-all duration-500 bg-transparent h-full grow text-lg text-white placeholder:text-green-600'} type="text" placeholder={input1Failure ? 'error! please try again' : !input1Success ? 'Your email' : "success! check your email"} name="" id="" value={input1}
                   onChange={handleInput1Change} />
-                  <img className='h-8 hover:brightness-125 hover:scale-90 cursor-pointer transition-all duration-300' onClick={handleInput1Submit} src={!input1Success ? "https://img.icons8.com/ios-filled/100/ffffff/long-arrow-right.png" : "https://img.icons8.com/material-outlined/100/16A34A/checkmark--v1.png"} alt="" />
+                  <img className='h-8 hover:brightness-125 hover:scale-90 cursor-pointer transition-all duration-300' onClick={handleInput1Submit} src={input1Failure ? 'https://img.icons8.com/ios-filled/100/DC2626/delete-sign--v1.png' : !input1Success ? "https://img.icons8.com/ios-filled/100/ffffff/long-arrow-right.png" : "https://img.icons8.com/material-outlined/100/16A34A/checkmark--v1.png"} alt="" />
                 </div>
 
                 <p className='mt-7 text-gray-400'>
@@ -120,11 +130,11 @@ function App() {
               <p></p>
             ) : (
               <div className=''>
-                <div className={!input1Success ? 'mt-10 md:mt-8 h-14 flex items-center w-full border-b-4 border-gray-400' : 'mt-10 md:mt-8 h-14 flex items-center w-full border-b-4 border-green-600 text-green-600'}>
-                  <input className={!input1Success ? 'bg-transparent h-full grow text-lg text-white' : 'bg-transparent h-full grow text-lg text-white placeholder:text-green-600'} type="text" placeholder='Your email' name="" id="" value={input1}
+                <div className={input1Failure ? 'mt-10 md:mt-8 h-14 flex items-center w-full border-b-4 border-red-600 text-red-600' : !input1Success ? 'mt-10 md:mt-8 h-14 flex items-center w-full border-b-4 border-gray-400' : 'mt-10 md:mt-8 h-14 flex items-center w-full border-b-4 border-green-600 text-green-600'}>
+                  <input className={input1Failure ? 'bg-transparent h-full grow text-lg text-white placeholder:text-red-600' : !input1Success ? 'bg-transparent h-full grow text-lg text-white' : 'bg-transparent h-full grow text-lg text-white placeholder:text-green-600'} type="text" placeholder={input1Failure ? 'error! please try again' : !input1Success ? 'Your email' : "success! check your email"} name="" id="" value={input1}
                   onChange={handleInput1Change}/>
 
-                  <img className='h-8 hover:brightness-90 cursor-pointer' onClick={handleInput1Submit} src={!input1Success ? "https://img.icons8.com/ios-filled/100/ffffff/long-arrow-right.png" : "https://img.icons8.com/material-outlined/100/16A34A/checkmark--v1.png"} alt="" />
+                  <img className='h-8 hover:brightness-90 cursor-pointer' onClick={handleInput1Submit} src={input1Failure ? 'https://img.icons8.com/ios-filled/100/DC2626/delete-sign--v1.png' : !input1Success ? "https://img.icons8.com/ios-filled/100/ffffff/long-arrow-right.png" : "https://img.icons8.com/material-outlined/100/16A34A/checkmark--v1.png"} alt="" />
                 </div>
 
                 <p className='mt-7 text-gray-400'>
@@ -163,15 +173,17 @@ function App() {
         </h1>
 
         <div className=''>
-          <div className={!input2Success ? 'transition-all duration-500 mt-8 h-14 flex items-center w-full border-b-4 border-gray-400 md:w-3/5 md:ml-8' : 'transition-all duration-500 mt-8 h-14 flex items-center w-full border-b-4 border-green-600 text-green-600 md:w-3/5 md:ml-8'}>
-            <input className={!input2Success ? 'placeholder:transition-all placeholder:duration-500 bg-transparent h-full grow text-lg text-white' : 'transition-all duration-500 bg-transparent h-full grow text-lg text-white placeholder:text-green-600'} type="text" placeholder={!input2Success ? 'Your email' : "success! check your email"} name="" id="" value={input2}
-              onChange={handleInput2Change} />
-            <img className='h-8 hover:brightness-125 hover:scale-90 cursor-pointer transition-all duration-300' onClick={handleInput2Submit} src={!input2Success ? "https://img.icons8.com/ios-filled/100/ffffff/long-arrow-right.png" : "https://img.icons8.com/material-outlined/100/16A34A/checkmark--v1.png"} alt="" />
-          </div>
+          <div className=''>
+            <div className={input2Failure ? 'transition-all duration-500 mt-7 h-14 flex items-center w-full border-b-4 border-red-600 md:w-3/5 md:ml-8' : !input2Success ? 'transition-all duration-500 mt-8 h-14 flex items-center w-full border-b-4 border-gray-400 md:w-3/5 md:ml-8' : 'transition-all duration-500 mt-8 h-14 flex items-center w-full border-b-4 border-green-600 text-green-600 md:w-3/5 md:ml-8'}>
+              <input className={input2Failure ? 'transition-all duration-500 bg-transparent h-full grow text-lg text-white placeholder:text-red-600' : !input2Success ? 'placeholder:transition-all placeholder:duration-500 bg-transparent h-full grow text-lg text-white' : 'transition-all duration-500 bg-transparent h-full grow text-lg text-white placeholder:text-green-600'} type="text" placeholder={input2Failure ? 'error! please try again' : !input2Success ? 'Your email' : "success! check your email"} name="" id="" value={input2}
+                onChange={handleInput2Change} />
+              <img className='h-8 hover:brightness-125 hover:scale-90 cursor-pointer transition-all duration-300' onClick={handleInput2Submit} src={input2Failure ? 'https://img.icons8.com/ios-filled/100/DC2626/delete-sign--v1.png' : !input2Success ? "https://img.icons8.com/ios-filled/100/ffffff/long-arrow-right.png" : "https://img.icons8.com/material-outlined/100/16A34A/checkmark--v1.png"} alt="" />
+            </div>
 
-          <p className='mt-7 text-gray-400 md:pl-8'>
-            We’re really honest guys and promise not to send you ads. <br className='hidden md:block'/>We will write only once when our platform is ready.
-          </p>
+            <p className='mt-7 text-gray-400 md:pl-8'>
+              We’re really honest guys and promise not to send you ads. <br className='hidden md:block'/>We will write only once when our platform is ready.
+            </p>
+          </div>
         </div>
 
         <p className='mt-16 md:mt-20 mb-6 md:mb-14 text-white text-center font-medium px-8'>
