@@ -25,14 +25,31 @@ function App() {
     setInput1(event.target.value);
   };
 
+  const handleInput1KeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleInput1Submit()
+    }
+  }
+
   const handleInput2Change = (event) => {
     setInput2(event.target.value);
   };
 
+  const handleInput2KeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleInput2Submit()
+    }
+  }
+
   const ref = collection(firestore, "signups");
+  const emailReg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
   const handleInput1Submit = async() => {
     try {
+      if(!emailReg.test(input1)){
+        throw new Error("Invalid Email");
+      }
+
       await addDoc(ref, {
         email: input1
       })
@@ -53,6 +70,10 @@ function App() {
 
   const handleInput2Submit = async() => {
     try {
+      if(!emailReg.test(input2)){
+        throw new Error("Invalid Email");
+      }
+
       await addDoc(ref, {
         email: input2
       })
@@ -105,7 +126,7 @@ function App() {
               <div className=''>
                 <div className={input1Failure ? 'transition-all duration-500 mt-8 h-14 flex items-center w-full border-b-4 border-red-600' : !input1Success ? 'transition-all duration-500 mt-8 h-14 flex items-center w-full border-b-4 border-gray-400' : 'transition-all duration-500 mt-8 h-14 flex items-center w-full border-b-4 border-green-600 text-green-600'}>
                   <input className={input1Failure ? 'transition-all duration-500 bg-transparent h-full grow text-lg text-white placeholder:text-red-600' : !input1Success ? 'placeholder:transition-all placeholder:duration-500 bg-transparent h-full grow text-lg text-white' : 'transition-all duration-500 bg-transparent h-full grow text-lg text-white placeholder:text-green-600'} type="text" placeholder={input1Failure ? 'error! please try again' : !input1Success ? 'Your email' : "success! check your email"} name="" id="" value={input1}
-                  onChange={handleInput1Change} />
+                  onChange={handleInput1Change} onKeyDown={handleInput1KeyDown}/>
                   <img className='h-8 hover:brightness-125 hover:scale-90 cursor-pointer transition-all duration-300' onClick={handleInput1Submit} src={input1Failure ? 'https://img.icons8.com/ios-filled/100/DC2626/delete-sign--v1.png' : !input1Success ? "https://img.icons8.com/ios-filled/100/ffffff/long-arrow-right.png" : "https://img.icons8.com/material-outlined/100/16A34A/checkmark--v1.png"} alt="" />
                 </div>
 
@@ -134,7 +155,7 @@ function App() {
                   <input className={input1Failure ? 'bg-transparent h-full grow text-lg text-white placeholder:text-red-600' : !input1Success ? 'bg-transparent h-full grow text-lg text-white' : 'bg-transparent h-full grow text-lg text-white placeholder:text-green-600'} type="text" placeholder={input1Failure ? 'error! please try again' : !input1Success ? 'Your email' : "success! check your email"} name="" id="" value={input1}
                   onChange={handleInput1Change}/>
 
-                  <img className='h-8 hover:brightness-90 cursor-pointer' onClick={handleInput1Submit} src={input1Failure ? 'https://img.icons8.com/ios-filled/100/DC2626/delete-sign--v1.png' : !input1Success ? "https://img.icons8.com/ios-filled/100/ffffff/long-arrow-right.png" : "https://img.icons8.com/material-outlined/100/16A34A/checkmark--v1.png"} alt="" />
+                  <img className='h-8 hover:brightness-90 cursor-pointer' onClick={handleInput1Submit} onKeyDown={handleInput1KeyDown} src={input1Failure ? 'https://img.icons8.com/ios-filled/100/DC2626/delete-sign--v1.png' : !input1Success ? "https://img.icons8.com/ios-filled/100/ffffff/long-arrow-right.png" : "https://img.icons8.com/material-outlined/100/16A34A/checkmark--v1.png"} alt="" />
                 </div>
 
                 <p className='mt-7 text-gray-400'>
@@ -176,7 +197,7 @@ function App() {
           <div className=''>
             <div className={input2Failure ? 'transition-all duration-500 mt-7 h-14 flex items-center w-full border-b-4 border-red-600 md:w-3/5 md:ml-8' : !input2Success ? 'transition-all duration-500 mt-8 h-14 flex items-center w-full border-b-4 border-gray-400 md:w-3/5 md:ml-8' : 'transition-all duration-500 mt-8 h-14 flex items-center w-full border-b-4 border-green-600 text-green-600 md:w-3/5 md:ml-8'}>
               <input className={input2Failure ? 'transition-all duration-500 bg-transparent h-full grow text-lg text-white placeholder:text-red-600' : !input2Success ? 'placeholder:transition-all placeholder:duration-500 bg-transparent h-full grow text-lg text-white' : 'transition-all duration-500 bg-transparent h-full grow text-lg text-white placeholder:text-green-600'} type="text" placeholder={input2Failure ? 'error! please try again' : !input2Success ? 'Your email' : "success! check your email"} name="" id="" value={input2}
-                onChange={handleInput2Change} />
+                onChange={handleInput2Change} onKeyDown={handleInput2KeyDown} />
               <img className='h-8 hover:brightness-125 hover:scale-90 cursor-pointer transition-all duration-300' onClick={handleInput2Submit} src={input2Failure ? 'https://img.icons8.com/ios-filled/100/DC2626/delete-sign--v1.png' : !input2Success ? "https://img.icons8.com/ios-filled/100/ffffff/long-arrow-right.png" : "https://img.icons8.com/material-outlined/100/16A34A/checkmark--v1.png"} alt="" />
             </div>
 
