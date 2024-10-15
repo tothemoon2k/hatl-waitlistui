@@ -8,12 +8,58 @@ import hattlLogo from "../public/assets/LOGO MAIN 1.png";
 import phoness from "../public/assets/Frame 34427.png";
 import laptopss from "../public/assets/Macbook Air (2022).png";
 import backgroundblobs from "../public/assets/Group 49.png";
+import { firestore } from "./firebase.js";
+import { addDoc, collection } from '@firebase/firestore';
 import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0);
-
   const screenWidth = screen.width;
+  const [input1, setInput1] = useState('');
+  const [input2, setInput2] = useState('');
+  const [input1Success, setInput1Success] = useState(false);
+  const [input2Success, setInput2Success] = useState(false);
+
+  const handleInput1Change = (event) => {
+    setInput1(event.target.value);
+  };
+
+  const handleInput2Change = (event) => {
+    setInput2(event.target.value);
+  };
+
+  const ref = collection(firestore, "signups");
+
+  const handleInput1Submit = async() => {
+    try {
+      await addDoc(ref, {
+        email: input1
+      })
+    } catch (error) {
+      console.log(error);
+    }
+
+    setInput1("");
+    setInput1Success(true);
+    setTimeout(()=>{
+      setInput1Success(false);
+    }, 2000)
+  }
+
+  const handleInput2Submit = async() => {
+    try {
+      await addDoc(ref, {
+        email: input2
+      })
+    } catch (error) {
+      console.log(error);
+    }
+
+    setInput2("");
+    setInput2Success(true);
+    setTimeout(()=>{
+      setInput2Success(false);
+    }, 2000)
+  }
 
   return (
     <div className='bg-[#121114] h-fit relative overflow-hidden'>
@@ -47,9 +93,10 @@ function App() {
 
             {screenWidth > 768 ? (
               <div className=''>
-                <div className='mt-8 h-14 flex items-center w-full border-b-4 border-gray-400'>
-                  <input className='bg-transparent h-full grow text-lg text-white' type="text" placeholder='Your email' name="" id="" />
-                  <img className='h-10' src="https://img.icons8.com/ios-filled/100/ffffff/long-arrow-right.png" alt="" />
+                <div className={!input1Success ? 'transition-all duration-500 mt-8 h-14 flex items-center w-full border-b-4 border-gray-400' : 'transition-all duration-500 mt-8 h-14 flex items-center w-full border-b-4 border-green-600 text-green-600'}>
+                  <input className={!input1Success ? 'placeholder:transition-all placeholder:duration-500 bg-transparent h-full grow text-lg text-white' : 'transition-all duration-500 bg-transparent h-full grow text-lg text-white placeholder:text-green-600'} type="text" placeholder={!input1Success ? 'Your email' : "success! check your email"} name="" id="" value={input1}
+                  onChange={handleInput1Change} />
+                  <img className='h-8 hover:brightness-125 hover:scale-90 cursor-pointer transition-all duration-300' onClick={handleInput1Submit} src={!input1Success ? "https://img.icons8.com/ios-filled/100/ffffff/long-arrow-right.png" : "https://img.icons8.com/material-outlined/100/16A34A/checkmark--v1.png"} alt="" />
                 </div>
 
                 <p className='mt-7 text-gray-400'>
@@ -73,10 +120,11 @@ function App() {
               <p></p>
             ) : (
               <div className=''>
-                <div className='mt-10 md:mt-8 h-14 flex items-center w-full border-b-4 border-gray-400'>
-                  <input className='bg-transparent h-full grow text-lg text-white' type="text" placeholder='Your email' name="" id="" />
+                <div className={!input1Success ? 'mt-10 md:mt-8 h-14 flex items-center w-full border-b-4 border-gray-400' : 'mt-10 md:mt-8 h-14 flex items-center w-full border-b-4 border-green-600 text-green-600'}>
+                  <input className={!input1Success ? 'bg-transparent h-full grow text-lg text-white' : 'bg-transparent h-full grow text-lg text-white placeholder:text-green-600'} type="text" placeholder='Your email' name="" id="" value={input1}
+                  onChange={handleInput1Change}/>
 
-                  <img className='h-10' src="https://img.icons8.com/ios-filled/100/ffffff/long-arrow-right.png" alt="" />
+                  <img className='h-8 hover:brightness-90 cursor-pointer' onClick={handleInput1Submit} src={!input1Success ? "https://img.icons8.com/ios-filled/100/ffffff/long-arrow-right.png" : "https://img.icons8.com/material-outlined/100/16A34A/checkmark--v1.png"} alt="" />
                 </div>
 
                 <p className='mt-7 text-gray-400'>
@@ -114,15 +162,17 @@ function App() {
           6 free months<br /> <span className='text-gray-400'>for our first users</span>
         </h1>
 
-        <div className='mt-8 h-14 flex items-center w-full border-b-4 border-gray-400 md:w-3/5 md:ml-8'>
-          <input className='bg-transparent h-full grow text-lg text-white' type="text" placeholder='Your email' name="" id="" />
+        <div className=''>
+          <div className={!input2Success ? 'transition-all duration-500 mt-8 h-14 flex items-center w-full border-b-4 border-gray-400 md:w-3/5 md:ml-8' : 'transition-all duration-500 mt-8 h-14 flex items-center w-full border-b-4 border-green-600 text-green-600 md:w-3/5 md:ml-8'}>
+            <input className={!input2Success ? 'placeholder:transition-all placeholder:duration-500 bg-transparent h-full grow text-lg text-white' : 'transition-all duration-500 bg-transparent h-full grow text-lg text-white placeholder:text-green-600'} type="text" placeholder={!input2Success ? 'Your email' : "success! check your email"} name="" id="" value={input2}
+              onChange={handleInput2Change} />
+            <img className='h-8 hover:brightness-125 hover:scale-90 cursor-pointer transition-all duration-300' onClick={handleInput2Submit} src={!input2Success ? "https://img.icons8.com/ios-filled/100/ffffff/long-arrow-right.png" : "https://img.icons8.com/material-outlined/100/16A34A/checkmark--v1.png"} alt="" />
+          </div>
 
-          <img className='h-10' src="https://img.icons8.com/ios-filled/100/ffffff/long-arrow-right.png" alt="" />
+          <p className='mt-7 text-gray-400 md:pl-8'>
+            We’re really honest guys and promise not to send you ads. <br className='hidden md:block'/>We will write only once when our platform is ready.
+          </p>
         </div>
-
-        <p className='mt-7 text-gray-400 md:pl-8'>
-          We’re really honest guys and promise not to send you ads. <br className='hidden md:block'/>We will write only once when our platform is ready.
-        </p>
 
         <p className='mt-16 md:mt-20 mb-6 md:mb-14 text-white text-center font-medium px-8'>
           We are just starting our journey, but we promise that it will be cool!
